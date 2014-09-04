@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: davinci_description
+    relative_path: robots/davinci_description.xacro
+  SRDF:
+    relative_path: config/davinci.srdf
+  CONFIG:
+    generated_timestamp: 1407851385
