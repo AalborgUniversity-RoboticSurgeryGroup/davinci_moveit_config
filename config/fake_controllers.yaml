@@ -1,5 +1,5 @@
 controller_list:
-  - name: fake_red_arm_controller
+  - name: fake_gripper_controller
     joints:
       - p4_hand_roll
       - p4_hand_pitch

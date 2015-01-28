@@ -9,153 +9,125 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="red_arm">
-        <joint name="p4_hand_roll" />
-        <joint name="p4_hand_pitch" />
-        <joint name="p4_hand_pitch2" />
-        <joint name="p4_hand_pitch3" />
+    <group name="gripper">
         <joint name="p4_instrument_slide" />
         <joint name="p4_instrument_roll" />
         <joint name="p4_instrument_pitch" />
         <joint name="p4_instrument_jaw_left" />
         <joint name="p4_instrument_jaw_right" />
+        <joint name="p4_hand_pitch" />
+        <joint name="p4_hand_roll" />
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
-    <group_state name="poseL" group="red_arm">
+    <group_state name="extracted" group="gripper">
         <joint name="p4_hand_pitch" value="0" />
-        <joint name="p4_hand_pitch2" value="0" />
-        <joint name="p4_hand_pitch3" value="0" />
         <joint name="p4_hand_roll" value="0" />
         <joint name="p4_instrument_jaw_left" value="0" />
         <joint name="p4_instrument_jaw_right" value="0" />
         <joint name="p4_instrument_pitch" value="0" />
-        <joint name="p4_instrument_roll" value="-1.6237" />
-        <joint name="p4_instrument_slide" value="0.1837" />
+        <joint name="p4_instrument_roll" value="0" />
+        <joint name="p4_instrument_slide" value="0" />
+    </group_state>
+    <group_state name="ready" group="gripper">
+        <joint name="p4_hand_pitch" value="0" />
+        <joint name="p4_hand_roll" value="0" />
+        <joint name="p4_instrument_jaw_left" value="0" />
+        <joint name="p4_instrument_jaw_right" value="0" />
+        <joint name="p4_instrument_pitch" value="0" />
+        <joint name="p4_instrument_roll" value="0" />
+        <joint name="p4_instrument_slide" value="0.058" />
+    </group_state>
+    <group_state name="open_jaws" group="gripper">
+        <joint name="p4_hand_pitch" value="0" />
+        <joint name="p4_hand_roll" value="0" />
+        <joint name="p4_instrument_jaw_left" value="-1" />
+        <joint name="p4_instrument_jaw_right" value="-1" />
+        <joint name="p4_instrument_pitch" value="0" />
+        <joint name="p4_instrument_roll" value="0" />
+        <joint name="p4_instrument_slide" value="0.058" />
+    </group_state>
+    <group_state name="far_right" group="gripper">
+        <joint name="p4_hand_pitch" value="-0.5" />
+        <joint name="p4_hand_roll" value="1" />
+        <joint name="p4_instrument_jaw_left" value="0.9" />
+        <joint name="p4_instrument_jaw_right" value="-1" />
+        <joint name="p4_instrument_pitch" value="-0.5" />
+        <joint name="p4_instrument_roll" value="1.5" />
+        <joint name="p4_instrument_slide" value="0.2" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="p4_instrument_head" parent_link="p4_instrument_neck" group="red_arm" parent_group="red_arm" />
+    <end_effector name="Gripper" parent_link="base_link" group="gripper" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
-    <virtual_joint name="base" type="fixed" parent_frame="world" child_link="world" />
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link" />
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
-    <passive_joint name="p4_hand_pitch2" />
-    <passive_joint name="p4_hand_pitch3" />
+    <passive_joint name="p4_arm_elevation" />
+    <passive_joint name="p4_arm_yaw1" />
+    <passive_joint name="p4_arm_yaw2" />
+    <passive_joint name="p4_arm_yaw3" />
+    <passive_joint name="p4_arm_roll1" />
+    <passive_joint name="p4_arm_yaw4" />
+    <passive_joint name="p4_rcm_instrument_holder_upper_bar_joint" />
+    <passive_joint name="p4_rcm_upper_bar_base_joint" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="base_link" link2="p4_arm1" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_arm2" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_arm3" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_arm4" reason="Never" />
     <disable_collisions link1="base_link" link2="p4_arm_base" reason="Adjacent" />
-    <disable_collisions link1="base_link" link2="p4_hand1" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_hand2" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="base_link" link2="p4_instrument_neck" reason="Never" />
+    <disable_collisions link1="needle_driver_head" link2="needle_driver_house" reason="Never" />
+    <disable_collisions link1="needle_driver_head" link2="needle_driver_jawbone_left" reason="Adjacent" />
+    <disable_collisions link1="needle_driver_head" link2="needle_driver_jawbone_right" reason="Adjacent" />
+    <disable_collisions link1="needle_driver_head" link2="needle_driver_neck" reason="Adjacent" />
+    <disable_collisions link1="needle_driver_head" link2="p4_rcm_base" reason="Never" />
+    <disable_collisions link1="needle_driver_head" link2="p4_rcm_instrument_holder" reason="Default" />
+    <disable_collisions link1="needle_driver_head" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="needle_driver_head" link2="p4_rcm_parallelogram_upper_bar" reason="Never" />
+    <disable_collisions link1="needle_driver_head" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="needle_driver_house" link2="needle_driver_jawbone_left" reason="Never" />
+    <disable_collisions link1="needle_driver_house" link2="needle_driver_jawbone_right" reason="Never" />
+    <disable_collisions link1="needle_driver_house" link2="needle_driver_neck" reason="Adjacent" />
+    <disable_collisions link1="needle_driver_house" link2="p4_rcm_base" reason="Never" />
+    <disable_collisions link1="needle_driver_house" link2="p4_rcm_instrument_holder" reason="Adjacent" />
+    <disable_collisions link1="needle_driver_house" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="needle_driver_house" link2="p4_rcm_parallelogram_upper_bar" reason="Never" />
+    <disable_collisions link1="needle_driver_house" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="needle_driver_jawbone_right" reason="Default" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="needle_driver_neck" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="p4_rcm_base" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="p4_rcm_instrument_holder" reason="User" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="p4_rcm_parallelogram_upper_bar" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_left" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_right" link2="needle_driver_neck" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_right" link2="p4_rcm_base" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_right" link2="p4_rcm_instrument_holder" reason="User" />
+    <disable_collisions link1="needle_driver_jawbone_right" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_right" link2="p4_rcm_parallelogram_upper_bar" reason="Never" />
+    <disable_collisions link1="needle_driver_jawbone_right" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="needle_driver_neck" link2="p4_rcm_base" reason="Never" />
+    <disable_collisions link1="needle_driver_neck" link2="p4_rcm_instrument_holder" reason="Default" />
+    <disable_collisions link1="needle_driver_neck" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="needle_driver_neck" link2="p4_rcm_parallelogram_upper_bar" reason="Never" />
+    <disable_collisions link1="needle_driver_neck" link2="p4_rcm_pivot_plate" reason="Never" />
     <disable_collisions link1="p4_arm1" link2="p4_arm2" reason="Adjacent" />
-    <disable_collisions link1="p4_arm1" link2="p4_arm3" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_arm4" reason="Never" />
     <disable_collisions link1="p4_arm1" link2="p4_arm_base" reason="Adjacent" />
-    <disable_collisions link1="p4_arm1" link2="p4_hand1" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_hand2" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_arm1" link2="p4_instrument_neck" reason="Never" />
     <disable_collisions link1="p4_arm2" link2="p4_arm3" reason="Adjacent" />
     <disable_collisions link1="p4_arm2" link2="p4_arm4" reason="Never" />
     <disable_collisions link1="p4_arm2" link2="p4_arm_base" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_hand1" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_hand2" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_arm2" link2="p4_instrument_neck" reason="Never" />
+    <disable_collisions link1="p4_arm2" link2="p4_rcm_pivot_plate" reason="Never" />
     <disable_collisions link1="p4_arm3" link2="p4_arm4" reason="Adjacent" />
     <disable_collisions link1="p4_arm3" link2="p4_arm_base" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_hand1" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_hand2" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_arm3" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_arm_base" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_hand1" reason="Adjacent" />
-    <disable_collisions link1="p4_arm4" link2="p4_hand2" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_arm4" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_hand1" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_hand2" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_arm_base" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_hand2" reason="Adjacent" />
-    <disable_collisions link1="p4_hand1" link2="p4_hand3" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_hand1" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_hand3" reason="Adjacent" />
-    <disable_collisions link1="p4_hand2" link2="p4_hand4" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_hand2" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_hand3" link2="p4_hand4" reason="Adjacent" />
-    <disable_collisions link1="p4_hand3" link2="p4_hand5" reason="Never" />
-    <disable_collisions link1="p4_hand3" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_hand3" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_hand3" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_hand3" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_hand3" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_hand4" link2="p4_hand5" reason="Adjacent" />
-    <disable_collisions link1="p4_hand4" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_hand4" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_hand4" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_hand4" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_hand4" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_hand5" link2="p4_instrument_head" reason="Never" />
-    <disable_collisions link1="p4_hand5" link2="p4_instrument_house" reason="Adjacent" />
-    <disable_collisions link1="p4_hand5" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_hand5" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_hand5" link2="p4_instrument_neck" reason="Never" />
-    <disable_collisions link1="p4_instrument_head" link2="p4_instrument_house" reason="Never" />
-    <disable_collisions link1="p4_instrument_head" link2="p4_instrument_jawbone_left" reason="Adjacent" />
-    <disable_collisions link1="p4_instrument_head" link2="p4_instrument_jawbone_right" reason="Adjacent" />
-    <disable_collisions link1="p4_instrument_head" link2="p4_instrument_neck" reason="Adjacent" />
-    <disable_collisions link1="p4_instrument_house" link2="p4_instrument_jawbone_left" reason="Never" />
-    <disable_collisions link1="p4_instrument_house" link2="p4_instrument_jawbone_right" reason="Never" />
-    <disable_collisions link1="p4_instrument_house" link2="p4_instrument_neck" reason="Adjacent" />
-    <disable_collisions link1="p4_instrument_jawbone_left" link2="p4_instrument_jawbone_right" reason="Default" />
+    <disable_collisions link1="p4_arm3" link2="p4_rcm_base" reason="Never" />
+    <disable_collisions link1="p4_arm3" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="p4_arm3" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="p4_arm4" link2="p4_rcm_base" reason="Adjacent" />
+    <disable_collisions link1="p4_arm4" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="p4_arm4" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="p4_rcm_base" link2="p4_rcm_instrument_holder" reason="Never" />
+    <disable_collisions link1="p4_rcm_base" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="p4_rcm_base" link2="p4_rcm_parallelogram_upper_bar" reason="Never" />
+    <disable_collisions link1="p4_rcm_base" link2="p4_rcm_pivot_plate" reason="Adjacent" />
+    <disable_collisions link1="p4_rcm_instrument_holder" link2="p4_rcm_parallelogram_base" reason="Never" />
+    <disable_collisions link1="p4_rcm_instrument_holder" link2="p4_rcm_parallelogram_upper_bar" reason="Adjacent" />
+    <disable_collisions link1="p4_rcm_instrument_holder" link2="p4_rcm_pivot_plate" reason="Never" />
+    <disable_collisions link1="p4_rcm_parallelogram_base" link2="p4_rcm_parallelogram_upper_bar" reason="Adjacent" />
+    <disable_collisions link1="p4_rcm_parallelogram_base" link2="p4_rcm_pivot_plate" reason="Adjacent" />
+    <disable_collisions link1="p4_rcm_parallelogram_upper_bar" link2="p4_rcm_pivot_plate" reason="Never" />
 </robot>

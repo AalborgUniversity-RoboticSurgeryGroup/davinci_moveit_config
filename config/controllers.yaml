@@ -2,6 +2,7 @@ controller_list:
   - name: davinci
     action_ns: p4_hand_controller/follow_joint_trajectory
     type: FollowJointTrajectory
+    default: true
     joints:
       - p4_hand_roll
       - p4_hand_pitch

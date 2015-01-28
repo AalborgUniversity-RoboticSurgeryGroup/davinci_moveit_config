@@ -1,8 +1,0 @@
-<launch>
-
-  <include file="$(find davinci_moveit_config)/launch/davinci_moveit_planning_execution.launch"/>
-
-  <node name="davinci_move_group_python_interface" pkg="davinci_moveit_config" type="davinci_move_group_python_interface.py" respawn="false" output="screen">
-  </node>
-
-</launch>
