@@ -12,16 +12,6 @@ joint_limits:
     max_velocity: 1
     has_acceleration_limits: false
     max_acceleration: 0
-  p4_instrument_jaw_left:
-    has_velocity_limits: true
-    max_velocity: 1
-    has_acceleration_limits: false
-    max_acceleration: 0
-  p4_instrument_jaw_right:
-    has_velocity_limits: true
-    max_velocity: 1
-    has_acceleration_limits: false
-    max_acceleration: 0
   p4_instrument_pitch:
     has_velocity_limits: true
     max_velocity: 1
@@ -35,5 +25,15 @@ joint_limits:
   p4_instrument_slide:
     has_velocity_limits: true
     max_velocity: 1
+    has_acceleration_limits: false
+    max_acceleration: 0
+  p4_rcm_instrument_holder_upper_bar_joint:
+    has_velocity_limits: false
+    max_velocity: 0
+    has_acceleration_limits: false
+    max_acceleration: 0
+  p4_rcm_upper_bar_base_joint:
+    has_velocity_limits: false
+    max_velocity: 0
     has_acceleration_limits: false
     max_acceleration: 0
