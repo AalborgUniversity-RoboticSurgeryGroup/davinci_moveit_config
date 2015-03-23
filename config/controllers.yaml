@@ -9,3 +9,4 @@ controller_list:
       - p4_instrument_slide
       - p4_instrument_roll
       - p4_instrument_pitch
+      - p4_instrument_jaw_right
