@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
   ROS_INFO(" "); 
 
   ROS_INFO("Default goal joint tolerance: %f",              group.getGoalJointTolerance());
-  group.setGoalTolerance(0.01); 
+  group.setGoalTolerance(0.005); 
   ROS_INFO("Modified goal joint tolerance: %f",             group.getGoalJointTolerance());
   ROS_INFO("Default position tolerance: %f",                group.getGoalPositionTolerance());
   ROS_INFO("Default position tolerance: %f",                group.getGoalPositionTolerance());
@@ -136,12 +136,12 @@ int main(int argc, char **argv) {
 
     //moveit::planning_interface::MoveGroup group("gripper"); // setup the MoveGroup class for group gripper
     std::string inputTest;
-    std::cout << "\nPress 'y' to run test mode or press 'i' for IK test or press 'c' to run custom mode" << std::endl;
+    std::cout << "\nPress 't' to run test mode or \nPress 'i' for IK test \nPress 'c' to run custom mode\nPress 'x' to enter custom IK mode\nPress 'd' to run demo mode" << std::endl;
     getline(std::cin, inputTest);
     std::cout << "input: " << inputTest << std::endl << std::endl;     
  
 
-   if (inputTest == "y") {
+   if (inputTest == "t") {
       ROS_INFO("Entering test mode..");
       test_mode_function();
     }
@@ -174,8 +174,37 @@ int main(int argc, char **argv) {
       }
       ROS_INFO("Leaving custom mode..");
     }
+
+    else if (inputTest == "x"){
+      char ans_c = 'c';
+      double off_z, off_y, off_x;
+      off_z = 0.900000 - (0.890000-0.6700000);
+      off_y = 0.000000;
+      off_x = 2.145200;
+      while(ans_c != 'q') {
+        double x, y, z;
+
+        ROS_INFO("enter x-coordinate");
+        std::cin >> x;
+        ROS_INFO("enter y-coordinate");
+        std::cin >> y;
+        ROS_INFO("enter z-coordinate");
+        std::cin >> z;
+
+        geometry_msgs::Pose custom_target;
+        custom_target.position.x = x + off_x;
+        custom_target.position.y = y + off_y;
+        custom_target.position.z = z + off_z;
+
+        group.setPoseTarget(custom_target);
+        moveit::planning_interface::MoveGroup::Plan custom_plan;
+        bool success_ = group.plan(custom_plan);
+        ROS_INFO("success = %d", success_);
+        group.move();
+     }
+   }
+
     else if (inputTest == "i"){
- 
       double off_z, off_y, off_x;
       off_z = 0.900000 - (0.890000-0.6700000);
       off_y = 0.000000;
@@ -183,6 +212,7 @@ int main(int argc, char **argv) {
       
       #define ik_test
       #ifdef ik_test
+      while(1) {
         ROS_INFO("ROS IK START!");
 
         geometry_msgs::Pose target_pose1;
@@ -190,17 +220,14 @@ int main(int argc, char **argv) {
         target_pose1.position.y = off_y;
         target_pose1.position.z = off_z;
 
+        ROS_INFO("Position tolerance: %f", group.getGoalPositionTolerance());
+
         group.setPoseTarget(target_pose1);
         moveit::planning_interface::MoveGroup::Plan my_plan_1;
         bool success_1 = group.plan(my_plan_1);
         ROS_INFO("success = %d", success_1);
-   
-        group.setGoalTolerance(0.01); 
         group.move();
       
-        std::cout << "\nPress 'y' to continue.." << std::endl;
-        getline(std::cin, inputTest);
-   
         geometry_msgs::Pose target_pose2;
         target_pose2.position.x = 0.100000 + off_x;
         target_pose2.position.y = off_y;
@@ -210,8 +237,6 @@ int main(int argc, char **argv) {
         moveit::planning_interface::MoveGroup::Plan my_plan_2;
         bool success_2 = group.plan(my_plan_2);
         ROS_INFO("success = %d", success_2);
-   
-        group.setGoalTolerance(0.01); 
         group.move();
         
         geometry_msgs::Pose target_pose3;
@@ -223,16 +248,22 @@ int main(int argc, char **argv) {
         moveit::planning_interface::MoveGroup::Plan my_plan_3;
         bool success_3 = group.plan(my_plan_3);
         ROS_INFO("success = %d", success_3);
-   
-        group.setGoalTolerance(0.01); 
         group.move();
+        
+        geometry_msgs::Pose target_pose4;
+        target_pose4.position.x = 0.150000 + off_x;
+        target_pose4.position.y = 0.150000 + off_y;
+        target_pose4.position.z = 0.000000 + off_z;
 
+        group.setPoseTarget(target_pose3);
+        moveit::planning_interface::MoveGroup::Plan my_plan_4;
+        bool success_4 = group.plan(my_plan_3);
+        ROS_INFO("success = %d", success_4);
+        group.move();
+        
         ROS_INFO("ROS IK END!");
       #endif
-
-    std::cout << "\nPress 'y' to continue" << std::endl;
-    getline(std::cin, inputTest);
-   
+    }
 }
    else {
      ROS_INFO("No test mode this time..");
