@@ -134,6 +134,18 @@ int main(int argc, char **argv) {
     group.setNamedTarget("ready");
     group.move();
 
+    // ROS_INFO("Current joint values: %f", group.getCurrentJointValues()[0]);
+    
+  
+  /*** get joint values ***/ 
+  int N_controllers = sizeof(p)/sizeof(p[0]);
+  int k;
+  for (k=0; k<N_controllers; k++) {
+    ROS_INFO("%d. %s = %f", k, p[k], group.getCurrentJointValues()[k]);  // provide active joints to user
+  }  
+
+  //ROS_INFO("End of strings: %i ", std::find(p,"p4_instrument_jaw_right"));
+
     //moveit::planning_interface::MoveGroup group("gripper"); // setup the MoveGroup class for group gripper
     std::string inputTest;
     std::cout << "\nPress 't' to run test mode or \nPress 'i' for IK test \nPress 'c' to run custom mode\nPress 'x' to enter custom IK mode\nPress 'd' to run demo mode" << std::endl;
@@ -150,9 +162,7 @@ int main(int argc, char **argv) {
       moveit::planning_interface::MoveGroup group("gripper"); // setup the MoveGroup class for group gripper
       char ans_c = 'c';
       while(ans_c != 'q') {
-        double slide;
-        double p4_hand_pitch;
-        double p4_hand_roll;
+        double slide, p4_hand_pitch, p4_hand_roll, p4_instrument_roll, p4_instrument_pitch;
 
         ROS_INFO("enter joint value for instrument_slide");
         std::cin >> slide;
@@ -160,13 +170,19 @@ int main(int argc, char **argv) {
         std::cin >> p4_hand_pitch;
         ROS_INFO("enter joint value for p4_hand_roll");
         std::cin >> p4_hand_roll;
-      
+        ROS_INFO("enter joint value for p4_instrument_roll");
+        std::cin >> p4_instrument_roll;
+        ROS_INFO("enter joint value for p4_instrument_pitch");
+        std::cin >> p4_instrument_pitch;
+
         ROS_INFO("setting custom joint angles");
+        joints[p[4]] =  p4_instrument_pitch;
+        joints[p[3]] =  p4_instrument_roll;
         joints[p[2]] =  p4_hand_roll;
         joints[p[1]] =  p4_hand_pitch;
         joints[p[0]] =  slide;
-        group.setJointValueTarget(joints);
 
+        group.setJointValueTarget(joints);
         group.move();
 
         ROS_INFO("press 'q' to quit custom mode or 'c' to set another joint state angle");
@@ -180,7 +196,7 @@ int main(int argc, char **argv) {
       double off_z, off_y, off_x;
       off_z = 0.900000 - (0.890000-0.6700000);
       off_y = 0.000000;
-      off_x = 2.145200;
+      off_x = 2.175200;
       while(ans_c != 'q') {
         double x, y, z;
 
@@ -201,6 +217,13 @@ int main(int argc, char **argv) {
         bool success_ = group.plan(custom_plan);
         ROS_INFO("success = %d", success_);
         group.move();
+
+        /*** get joint values ***/ 
+       int N_controllers = sizeof(p)/sizeof(p[0]);
+       int k;
+       for (k=0; k<N_controllers; k++) {
+         ROS_INFO("%d. %s = %f", k, p[k], group.getCurrentJointValues()[k]);  // provide joint values to user
+       }  
      }
    }
 

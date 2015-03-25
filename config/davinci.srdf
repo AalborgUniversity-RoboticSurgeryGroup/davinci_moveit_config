@@ -30,9 +30,10 @@
     <group_state name="ready" group="gripper">
         <joint name="p4_hand_pitch" value="0" />
         <joint name="p4_hand_roll" value="0" />
+        <joint name="p4_instrument_jaw_right" value="0" />
         <joint name="p4_instrument_pitch" value="0" />
         <joint name="p4_instrument_roll" value="0" />
-        <joint name="p4_instrument_slide" value="0.058" />
+        <joint name="p4_instrument_slide" value="0" />
     </group_state>
     <group_state name="open_jaws" group="gripper">
         <joint name="p4_hand_pitch" value="0" />
