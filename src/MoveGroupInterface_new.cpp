@@ -16,7 +16,7 @@
 
 
 #include <controller_manager/controller_manager.h>
-
+//#include <joint_limits.h>
 /*** uncomment to include specified code ***/
 #define joint_angles_specification
 #define test_mode
@@ -162,7 +162,7 @@ int main(int argc, char **argv) {
       moveit::planning_interface::MoveGroup group("gripper"); // setup the MoveGroup class for group gripper
       char ans_c = 'c';
       while(ans_c != 'q') {
-        double slide, p4_hand_pitch, p4_hand_roll, p4_instrument_roll, p4_instrument_pitch;
+        double slide, p4_hand_pitch, p4_hand_roll, p4_instrument_roll, p4_instrument_pitch, p4_instrument_jaw_right;
 
         ROS_INFO("enter joint value for instrument_slide");
         std::cin >> slide;
@@ -172,10 +172,13 @@ int main(int argc, char **argv) {
         std::cin >> p4_hand_roll;
         ROS_INFO("enter joint value for p4_instrument_roll");
         std::cin >> p4_instrument_roll;
-        ROS_INFO("enter joint value for p4_instrument_pitch");
+        ROS_INFO("enter joint value for p4_instrument_pitch"); // 0.9
         std::cin >> p4_instrument_pitch;
+        ROS_INFO("enter joint value for p4_instrument_jaw_right"); // -0.78 to 1.33
+        std::cin >> p4_instrument_jaw_right;
 
         ROS_INFO("setting custom joint angles");
+        joints[p[5]] =  p4_instrument_jaw_right;
         joints[p[4]] =  p4_instrument_pitch;
         joints[p[3]] =  p4_instrument_roll;
         joints[p[2]] =  p4_hand_roll;
